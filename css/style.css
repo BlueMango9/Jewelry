@@ -1725,13 +1725,6 @@ body.menu-open {
   }
 
   /* Rates Ticker - stays horizontal on small mobile too */
-  .ticker-label {
-    display: none;
-  }
-
-  .ticker-date {
-    display: none;
-  }
 
   /* Marquee */
   .marquee-item {

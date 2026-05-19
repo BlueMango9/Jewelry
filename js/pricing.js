@@ -135,7 +135,15 @@ const PricingEngine = (() => {
             <span class="ticker-value">${formatINR(i.value)}${i.unit}</span>
           </span>
         `).join('<span class="ticker-divider">|</span>')}
-        <span class="ticker-date">${dateStr}</span>
+        <span class="ticker-divider">|</span>
+        <span class="ticker-date">Updated: ${dateStr}</span>
+        <span class="ticker-warning" data-tooltip="Prices fluctuate daily. Refresh the page to see live prices.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg> Live Rates
+        </span>
       </div>
     `;
   }
