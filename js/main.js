@@ -1,15 +1,61 @@
-// Mobile Menu Toggle
+// ─── Mobile Menu System ───
 document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
 
+  // Create overlay backdrop element
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-overlay';
+  document.body.appendChild(overlay);
+
+  const hamburgerIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+  const closeIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+
+  function openMenu() {
+    navLinks.classList.add('open');
+    overlay.classList.add('active');
+    document.body.classList.add('menu-open');
+    menuToggle.innerHTML = closeIcon;
+  }
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.classList.remove('menu-open');
+    menuToggle.innerHTML = hamburgerIcon;
+    // Close all mobile dropdowns
+    document.querySelectorAll('.nav-dropdown.mobile-open').forEach(d => d.classList.remove('mobile-open'));
+  }
+
   if (menuToggle && navLinks) {
     menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      const isOpen = navLinks.classList.contains('open');
-      menuToggle.innerHTML = isOpen 
-        ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
-        : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+      navLinks.classList.contains('open') ? closeMenu() : openMenu();
+    });
+
+    // Close on overlay tap
+    overlay.addEventListener('click', closeMenu);
+
+    // Close when a direct nav link is clicked (not dropdown buttons)
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeMenu();
+      });
+    });
+
+    // Mobile dropdown toggle — tap to expand sub-menus
+    document.querySelectorAll('.nav-dropdown .dropdown-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          e.stopPropagation();
+          const dropdown = btn.closest('.nav-dropdown');
+          // Close other dropdowns
+          document.querySelectorAll('.nav-dropdown.mobile-open').forEach(d => {
+            if (d !== dropdown) d.classList.remove('mobile-open');
+          });
+          dropdown.classList.toggle('mobile-open');
+        }
+      });
     });
   }
 
