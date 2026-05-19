@@ -8,29 +8,46 @@ document.addEventListener('DOMContentLoaded', () => {
   overlay.className = 'nav-overlay';
   document.body.appendChild(overlay);
 
+  // Create a close header inside the mobile drawer
+  const drawerHeader = document.createElement('div');
+  drawerHeader.className = 'mobile-drawer-header';
+  drawerHeader.innerHTML = `
+    <span class="mobile-drawer-title">Menu</span>
+    <button class="mobile-drawer-close" aria-label="Close Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  `;
+  if (navLinks) {
+    navLinks.insertBefore(drawerHeader, navLinks.firstChild);
+  }
+
   const hamburgerIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
-  const closeIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
 
   function openMenu() {
     navLinks.classList.add('open');
     overlay.classList.add('active');
     document.body.classList.add('menu-open');
-    menuToggle.innerHTML = closeIcon;
   }
 
   function closeMenu() {
     navLinks.classList.remove('open');
     overlay.classList.remove('active');
     document.body.classList.remove('menu-open');
-    menuToggle.innerHTML = hamburgerIcon;
     // Close all mobile dropdowns
     document.querySelectorAll('.nav-dropdown.mobile-open').forEach(d => d.classList.remove('mobile-open'));
   }
 
   if (menuToggle && navLinks) {
+    // Hamburger button opens the menu
     menuToggle.addEventListener('click', () => {
       navLinks.classList.contains('open') ? closeMenu() : openMenu();
     });
+
+    // Close button inside the drawer
+    const drawerCloseBtn = drawerHeader.querySelector('.mobile-drawer-close');
+    if (drawerCloseBtn) {
+      drawerCloseBtn.addEventListener('click', closeMenu);
+    }
 
     // Close on overlay tap
     overlay.addEventListener('click', closeMenu);
