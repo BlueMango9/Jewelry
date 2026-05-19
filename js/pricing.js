@@ -124,23 +124,18 @@ const PricingEngine = (() => {
       { label: 'Silver 999', value: rates.silver_999, unit: '/g', icon: '◆' },
     ];
 
+    const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+
     el.innerHTML = `
       <div class="rates-ticker-inner">
         ${items.map(i => `
           <span class="ticker-item">
             <span class="ticker-icon">${i.icon}</span>
-            <span class="ticker-label">${i.label}</span>
+            <span class="ticker-label">${i.label}:</span>
             <span class="ticker-value">${formatINR(i.value)}${i.unit}</span>
           </span>
         `).join('<span class="ticker-divider">|</span>')}
-        <span class="ticker-date">Updated: ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-        <span class="ticker-warning" data-tooltip="Prices fluctuate daily. Refresh the page to see live prices.">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="8" x2="12" y2="12"></line>
-            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-          </svg> Live Rates (Refresh page to update)
-        </span>
+        <span class="ticker-date">${dateStr}</span>
       </div>
     `;
   }

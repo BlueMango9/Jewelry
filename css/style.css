@@ -536,6 +536,12 @@ button {
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
+  padding: 0 1rem;
+}
+
+.ticker-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
 }
 
 .ticker-item {
@@ -1292,45 +1298,50 @@ body.menu-open {
   }
 
   .dropdown-content {
-    position: static;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
     box-shadow: none;
     border-radius: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
+    min-width: 0;
+    display: none; /* Hide by default on mobile */
     background-color: transparent;
+    border-left: 2px solid var(--primary);
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   .nav-dropdown.mobile-open .dropdown-content {
-    max-height: 300px;
+    display: block; /* Show when open */
   }
 
   .dropdown-content a {
     padding: 0.75rem 1rem;
-    padding-left: 1.25rem;
+    padding-left: 1rem;
     font-size: 0.9rem;
-    color: var(--text-light);
+    color: var(--text-dark);
     border-bottom: 1px solid rgba(235, 220, 198, 0.3);
+    background-color: transparent;
   }
 
   .dropdown-content a:last-child {
     border-bottom: none;
   }
 
-  /* Desktop hover states — disable on mobile */
-  .nav-dropdown:hover .dropdown-content {
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    max-height: 0;
+  .dropdown-content a:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
   }
 
-  .nav-dropdown.mobile-open:hover .dropdown-content,
-  .nav-dropdown.mobile-open .dropdown-content {
-    max-height: 300px;
+  /* Disable desktop hover behavior on mobile */
+  .nav-dropdown:hover .dropdown-content {
+    display: none;
+  }
+
+  .nav-dropdown.mobile-open .dropdown-content,
+  .nav-dropdown.mobile-open:hover .dropdown-content {
+    display: block;
   }
 
   /* Logo */
@@ -1571,29 +1582,47 @@ body.menu-open {
   .rates-ticker {
     font-size: 0.75rem;
     padding: 6px 0;
+    overflow: hidden;
   }
 
   .rates-ticker-inner {
-    gap: 6px;
-    padding: 0 0.5rem;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    padding: 0 0.75rem;
+  }
+
+  .rates-ticker-inner::-webkit-scrollbar {
+    display: none;
   }
 
   .ticker-item {
-    gap: 4px;
+    gap: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .ticker-label {
+    font-size: 0.7rem;
+  }
+
+  .ticker-value {
+    font-size: 0.75rem;
   }
 
   .ticker-date {
-    font-size: 0.7rem;
-    margin-left: 4px;
-  }
-
-  .ticker-warning {
-    margin-left: 4px;
     font-size: 0.65rem;
+    margin-left: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .ticker-divider {
-    margin: 0 3px;
+    margin: 0 2px;
+    flex-shrink: 0;
   }
 
   /* Admin Panel */
@@ -1694,24 +1723,13 @@ body.menu-open {
     gap: 2rem;
   }
 
-  /* Rates Ticker */
-  .rates-ticker-inner {
-    flex-direction: column;
-    gap: 4px;
-    text-align: center;
-  }
-
-  .ticker-divider {
+  /* Rates Ticker - stays horizontal on small mobile too */
+  .ticker-label {
     display: none;
   }
 
   .ticker-date {
-    margin-left: 0;
-  }
-
-  .ticker-warning {
-    margin-left: 0;
-    justify-content: center;
+    display: none;
   }
 
   /* Marquee */
